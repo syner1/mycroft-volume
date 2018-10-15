@@ -36,9 +36,9 @@ class VolumeSkill(MycroftSkill):
 
     # TODO: Translation layer (have to match word in Level.voc)
     VOLUME_WORDS = {
-        'loud': 9,
-        'normal': 6,
-        'quiet': 3
+        'loud': 11,
+        'normal': 9,
+        'quiet': 7
     }
 
     def __init__(self):
@@ -48,7 +48,7 @@ class VolumeSkill(MycroftSkill):
         self.max_volume = self.config.get('max_volume')
         self.volume_sound = join(dirname(__file__), "blop-mark-diangelo.wav")
         try:
-            self.mixer = Mixer()
+            self.mixer = Mixer("PCM")
         except Exception:
             # Retry instanciating the mixer
             try:
@@ -136,7 +136,7 @@ class VolumeSkill(MycroftSkill):
 #    @intent_handler(IntentBuilder("UnmuteVolume").require(
 #        "Volume").require("Unmute"))
     def handle_unmute_volume(self, message):
-        self.mixer.setvolume(self.__level_to_volume(self.default_level))
+        self.mixer.setvolume(self.__level_to_volume(11))
         speak_message = message.data.get('speak_message', True)
         if speak_message:
             self.speak_dialog('reset.volume',
